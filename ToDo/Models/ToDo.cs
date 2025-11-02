@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace ToDoDem.Models
+namespace ToDo.Models
 {
     public class ToDo
     {

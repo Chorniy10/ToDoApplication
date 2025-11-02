@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ToDoDem.Models;
+using ToDo.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
