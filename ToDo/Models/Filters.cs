@@ -4,20 +4,20 @@
     {
         public Filters(string filterstring)
         {
-            filterString = filterstring ?? "all-all-all";
-            string[] filters = filterString.Split('-');
-            categoryId = filters[0];
-            due = filters[1];
-            statusId = filters[2];
+            Filterstring = filterstring ?? "all-all-all";
+            string[] filters = Filterstring.Split('-');
+            CategoryId = filters[0];
+            Due = filters[1];
+            StatusId = filters[2];
         }
-        public string filterString { get;}
-        public string categoryId { get;}
-        public string statusId { get; }
-        public string due { get; }
+        public string Filterstring { get;}
+        public string CategoryId { get;}
+        public string StatusId { get; }
+        public string Due { get; }
 
-        public bool hasCategory => categoryId.ToLower() != "all";
-        public bool hasStatus => statusId.ToLower() != "all";
-        public bool hasdue => due.ToLower() != "all";
+        public bool HasCategory => CategoryId.ToLower() != "all";
+        public bool HasStatus => StatusId.ToLower() != "all";
+        public bool HasDue => Due.ToLower() != "all";
 
         public static Dictionary<string,string> DueValues = new Dictionary<string, string>
         {
@@ -26,8 +26,8 @@
             {"past", "Past"}
         };
 
-        public bool isPast => due.ToLower() == "past";
-        public bool isToday => due.ToLower() == "today";
-        public bool isFuture => due.ToLower() == "future";
+        public bool IsPast => Due.ToLower() == "past";
+        public bool IsToday => Due.ToLower() == "today";
+        public bool IsFuture => Due.ToLower() == "future";
     }
 }

@@ -16,34 +16,34 @@ namespace ToDoDem.Controllers
         {
             var filters = new Filters(id);
             ViewBag.Filters = filters;
-            ViewBag.categories = context.Categories.ToList();
-            ViewBag.statuses = context.Statuses.ToList();
-            ViewBag.duefilters = Filters.DueValues;
+            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Statuses = context.Statuses.ToList();
+            ViewBag.DueFilters = Filters.DueValues;
 
             IQueryable<ToDo> query = context.ToDos
-                .Include(t => t.CategoryId)
-                .Include(t => t.StatusId);
+                .Include(t => t.Category)
+                .Include(t => t.Status);
 
-            if (filters.hasCategory)
+            if (filters.HasCategory)
             {
-                query = query.Where(t => t.CategoryId == filters.categoryId);
+                query = query.Where(t => t.CategoryId == filters.CategoryId);
             }
-            if (filters.hasStatus)
+            if (filters.HasStatus)
             {
-                query = query.Where(t => t.StatusId == filters.statusId);
+                query = query.Where(t => t.StatusId == filters.StatusId);
             }
 
-            if (filters.hasdue)
+            if (filters.HasDue)
             {
-                if (filters.isPast)
+                if (filters.IsPast)
                 {
                     query = query.Where(t => t.DueDate < DateTime.Today);
                 }
-                else if (filters.isToday)
+                else if (filters.IsToday)
                 {
                     query = query.Where(t => t.DueDate == DateTime.Today);
                 }
-                else if (filters.isFuture)
+                else if (filters.IsFuture)
                 {
                     query = query.Where(t => t.DueDate > DateTime.Today);
                 }
@@ -56,8 +56,8 @@ namespace ToDoDem.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.categories = context.Categories.ToList();
-            ViewBag.statuses = context.Statuses.ToList();
+            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Statuses = context.Statuses.ToList();
             var task = new ToDo { StatusId = "open"};
             return View(task);
         }
@@ -73,8 +73,8 @@ namespace ToDoDem.Controllers
             }
             else
             {
-                ViewBag.categories = context.Categories.ToList();
-                ViewBag.statuses = context.Statuses.ToList();
+                ViewBag.Categories = context.Categories.ToList();
+                ViewBag.Statuses = context.Statuses.ToList();
                 return View(task);
             }
         }
@@ -82,7 +82,7 @@ namespace ToDoDem.Controllers
         [HttpPost]
         public IActionResult Filter(string[] filter)
         {
-            string id = string.Join("-", filter);
+            string id = string.Join('-', filter);
             return RedirectToAction("Index", new { ID = id });
         }
 
@@ -92,7 +92,7 @@ namespace ToDoDem.Controllers
             selected = context.ToDos.Find(selected.Id);
             if (selected != null)
             {
-                selected.StatusId = "closed";
+                selected.StatusId = "completed";
                 context.SaveChanges();
             }
             return RedirectToAction("Index", new {ID = id});
@@ -101,7 +101,7 @@ namespace ToDoDem.Controllers
         [HttpPost]
         public IActionResult Delete(string id)
         {
-            var toDelete = context.ToDos.Where(t => t.StatusId == "closed").ToList();
+            var toDelete = context.ToDos.Where(t => t.StatusId == "completed").ToList();
             foreach(var task in toDelete)
             {
                 context.ToDos.Remove(task);
